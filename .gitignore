@@ -1,0 +1,5 @@
+*.pkl
+clone/data/c/train/embedding/node_w2v_128
+data/train/embedding/node_w2v_128
+*.tsv
+origin_data/train/embedding/node_w2v_128

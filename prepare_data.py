@@ -20,6 +20,7 @@ def get_sequences(node, sequence):
 
 def get_blocks(node, block_seq):
     children = node.children()
+    # children_block_seq = []
     name = node.__class__.__name__
     if name in ['FuncDef', 'If', 'For', 'While', 'DoWhile']:
         block_seq.append(ASTNode(node))
@@ -41,6 +42,7 @@ def get_blocks(node, block_seq):
             get_blocks(child, block_seq)
         block_seq.append(ASTNode('End'))
     else:
+        # block_seq.append(ASTNode(name)) # 增加一个头
         for _, child in node.children():
             get_blocks(child, block_seq)
 

@@ -3,6 +3,8 @@ import torch.nn.functional as F
 import torch
 from torch.autograd import Variable
 
+import dgl
+from dgl.nn.pytorch import GatedGraphConv
 
 class BatchTreeEncoder(nn.Module):
     def __init__(self, vocab_size, embedding_dim, encode_dim, batch_size, use_gpu, pretrained_weight=None):
@@ -150,5 +152,74 @@ class BatchProgramClassifier(nn.Module):
 
         # linear
         y = self.hidden2label(gru_out)
+        return y
+
+
+
+class GGNN(nn.Module):
+    def __init__(self,out_feats,n_steps,n_etypes):
+        super(GGNN, self).__init__()
+        # self.annotation_size = annotation_size
+        self.out_feats = out_feats
+        self.ggnn = GatedGraphConv(in_feats=out_feats,
+                                   out_feats=out_feats,
+                                   n_steps=n_steps,
+                                   n_etypes=n_etypes)
+        # self.output_layer = nn.Linear(annotation_size + out_feats, 1)
+        self.loss_fn = nn.CrossEntropyLoss()
+
+    def forward(self, graph, labels=None, use_gpu = False):
+        etypes = torch.tensor([0] * graph.number_of_edges())
+        if use_gpu:
+            etypes = etypes.cuda()
+        h = graph.ndata.pop('x').float()
+        out = self.ggnn(graph, h, etypes)
+        graph.ndata['x']=out
+        return graph.ndata['x'],graph
+
+
+
+class BatchGGNN(nn.Module):
+        # def __init__(self, embedding_dim, hidden_dim, vocab_size, encode_dim, label_size, batch_size, use_gpu=True, pretrained_weight=None):
+    def __init__(self, embedding_dim, hidden_dim, vocab_size, encode_dim, label_size, batch_size, use_gpu=True, pretrained_weight=None):
+        super(BatchGGNN, self).__init__()
+        self.stop = [vocab_size-1]
+        self.hidden_dim = hidden_dim
+        self.num_layers = 1
+        self.gpu = use_gpu
+        self.batch_size = batch_size
+        self.vocab_size = vocab_size
+        self.embedding_dim = embedding_dim
+        self.embedding = nn.Embedding(vocab_size, embedding_dim)
+        if pretrained_weight is not None:
+            self.embedding.weight.data.copy_(torch.from_numpy(pretrained_weight))
+        self.encode_dim = embedding_dim
+        self.label_size = label_size
+        self.ggnn = GGNN(embedding_dim,8,1)
+        
+        self.root2label = nn.Linear(self.encode_dim, self.label_size)
+        self.dropout = nn.Dropout(0.2)
+
+
+    def get_zeros(self, num):
+        zeros = Variable(torch.zeros(num, self.encode_dim))
+        if self.gpu:
+            return zeros.cuda()
+        return zeros
+
+    def forward(self, x):
+        batch_graph = dgl.batch(x)
+        if self.gpu:
+            batch_graph.to(torch.device("cuda"))
+        batch_graph.ndata['x'] = self.embedding(Variable(batch_graph.ndata['idx']))
+        graph_out,g = self.ggnn(batch_graph)
+        # print(graph_out.shape)
+        graph = dgl.unbatch(g)
+        # print(graph[0].ndata['x'][0].shape)
+        root_data = Variable(torch.stack([e.ndata['x'][0] for e in graph]))
+        # print(root_data.shape)
+        # print(root_data.shape)
+
+        y = self.root2label(root_data)
         return y
 

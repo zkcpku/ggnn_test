@@ -1,0 +1,17 @@
+Start training...
+[Epoch:   1/ 15] Training Loss: 1.7183, Validation Loss: 0.4226, Training Acc: 0.683, Validation Acc: 0.926, Time Cost: 688.612 s
+[Epoch:   2/ 15] Training Loss: 0.2422, Validation Loss: 0.1657, Training Acc: 0.952, Validation Acc: 0.964, Time Cost: 659.349 s
+[Epoch:   3/ 15] Training Loss: 0.1162, Validation Loss: 0.1120, Training Acc: 0.974, Validation Acc: 0.973, Time Cost: 657.242 s
+[Epoch:   4/ 15] Training Loss: 0.0757, Validation Loss: 0.0877, Training Acc: 0.982, Validation Acc: 0.977, Time Cost: 658.080 s
+[Epoch:   5/ 15] Training Loss: 0.0554, Validation Loss: 0.0756, Training Acc: 0.986, Validation Acc: 0.979, Time Cost: 655.362 s
+[Epoch:   6/ 15] Training Loss: 0.0433, Validation Loss: 0.0675, Training Acc: 0.989, Validation Acc: 0.980, Time Cost: 655.198 s
+[Epoch:   7/ 15] Training Loss: 0.0351, Validation Loss: 0.0625, Training Acc: 0.991, Validation Acc: 0.981, Time Cost: 654.645 s
+[Epoch:   8/ 15] Training Loss: 0.0291, Validation Loss: 0.0581, Training Acc: 0.992, Validation Acc: 0.981, Time Cost: 655.587 s
+[Epoch:   9/ 15] Training Loss: 0.0245, Validation Loss: 0.0562, Training Acc: 0.994, Validation Acc: 0.981, Time Cost: 655.787 s
+[Epoch:  10/ 15] Training Loss: 0.0209, Validation Loss: 0.0544, Training Acc: 0.994, Validation Acc: 0.982, Time Cost: 656.950 s
+[Epoch:  11/ 15] Training Loss: 0.0182, Validation Loss: 0.0533, Training Acc: 0.995, Validation Acc: 0.982, Time Cost: 656.667 s
+[Epoch:  12/ 15] Training Loss: 0.0160, Validation Loss: 0.0514, Training Acc: 0.995, Validation Acc: 0.983, Time Cost: 656.025 s
+[Epoch:  13/ 15] Training Loss: 0.0140, Validation Loss: 0.0518, Training Acc: 0.996, Validation Acc: 0.982, Time Cost: 656.386 s
+[Epoch:  14/ 15] Training Loss: 0.0128, Validation Loss: 0.0509, Training Acc: 0.996, Validation Acc: 0.982, Time Cost: 656.285 s
+[Epoch:  15/ 15] Training Loss: 0.0106, Validation Loss: 0.0529, Training Acc: 0.997, Validation Acc: 0.982, Time Cost: 654.628 s
+Testing results(Acc): 0.9819248149216422

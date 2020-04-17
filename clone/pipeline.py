@@ -29,7 +29,7 @@ class Pipeline:
                 source = pd.read_pickle(self.root+self.language+'/programs.pkl')
                 source.columns = ['id', 'code', 'label']
                 source['code'] = source['code'].apply(parser.parse)
-                source.to_pickle(path)
+                # source.to_pickle(path)
             else:
                 import javalang
                 def parse_program(func):
@@ -40,7 +40,7 @@ class Pipeline:
                 source = pd.read_csv(self.root+self.language+'/bcb_funcs_all.tsv', sep='\t', header=None, encoding='utf-8')
                 source.columns = ['id', 'code']
                 source['code'] = source['code'].apply(parse_program)
-                source.to_pickle(path)
+                # source.to_pickle(path)
         self.sources = source
         return source
 
